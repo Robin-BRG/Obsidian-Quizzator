@@ -1,0 +1,10 @@
+{
+  "id": "quizzator",
+  "name": "Quizzator",
+  "version": "1.0.0",
+  "minAppVersion": "0.15.0",
+  "description": "Create and take interactive quizzes with AI-powered evaluation. Supports multiple question types: free text, MCQ, sliders, and true/false.",
+  "author": "Robin",
+  "authorUrl": "https://github.com/Robin-BRG",
+  "isDesktopOnly": false
+}
