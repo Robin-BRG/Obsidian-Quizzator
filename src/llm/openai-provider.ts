@@ -58,7 +58,7 @@ export class OpenAIProvider implements LLMProvider {
                 expectedAnswer: result.expectedAnswer
             };
         } catch (error) {
-            throw new Error(`OpenAI evaluation failed: ${error.message}`);
+            throw new Error(`OpenAI evaluation failed: ${(error as Error).message}`);
         }
     }
 
@@ -79,8 +79,7 @@ export class OpenAIProvider implements LLMProvider {
             });
 
             return response.status === 200;
-        } catch (error) {
-            console.error('[Quizzator] OpenAI connection test failed:', error);
+        } catch {
             return false;
         }
     }

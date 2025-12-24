@@ -46,7 +46,7 @@ export class OllamaProvider implements LLMProvider {
                 expectedAnswer: result.expectedAnswer
             };
         } catch (error) {
-            throw new Error(`Ollama evaluation failed: ${error.message}`);
+            throw new Error(`Ollama evaluation failed: ${(error as Error).message}`);
         }
     }
 
@@ -58,8 +58,7 @@ export class OllamaProvider implements LLMProvider {
             });
 
             return response.status === 200;
-        } catch (error) {
-            console.error('[Quizzator] Ollama connection test failed:', error);
+        } catch {
             return false;
         }
     }

@@ -50,9 +50,9 @@ export class QuizzatorSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        // General Settings
+        // Quiz settings
         new Setting(containerEl)
-            .setName('General')
+            .setName('Quiz settings')
             .setHeading();
 
         new Setting(containerEl)

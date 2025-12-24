@@ -76,11 +76,11 @@ export default class QuizzatorPlugin extends Plugin {
             }
 
             const button = el.createEl('button', {
-                text: '▶ Launch Quiz',
+                text: '▶ Launch quiz',
                 cls: 'quizzator-button quizzator-button-primary'
             });
 
-            button.addEventListener('click', async () => {
+            button.addEventListener('click', () => {
                 // Convert absolute path to vault-relative if needed
                 let resolvedPath = quizPath;
                 if (isAbsolutePath(quizPath)) {
@@ -95,7 +95,7 @@ export default class QuizzatorPlugin extends Plugin {
 
                 const file = this.app.vault.getAbstractFileByPath(resolvedPath);
                 if (file instanceof TFile) {
-                    await this.launchQuiz(file);
+                    void this.launchQuiz(file);
                 } else {
                     new Notice(`Quiz file not found: ${quizPath}`);
                 }
@@ -165,7 +165,6 @@ export default class QuizzatorPlugin extends Plugin {
             modal.open();
         } catch (error) {
             new Notice(`Failed to launch quiz: ${(error as Error).message}`);
-            console.error('Quiz launch error:', error);
         }
     }
 
@@ -200,7 +199,6 @@ export default class QuizzatorPlugin extends Plugin {
                     return null;
             }
         } catch (error) {
-            console.error('Error creating LLM provider:', error);
             new Notice(`Failed to initialize LLM provider: ${(error as Error).message}`);
             return null;
         }

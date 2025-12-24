@@ -44,8 +44,8 @@ export async function findAllQuizzes(vault: Vault, folderPath: string = ''): Pro
                 const quiz = parseQuizYAML(yamlContent);
                 quizFiles.push({ file, quiz });
             }
-        } catch (error) {
-            console.warn(`Failed to parse quiz from ${file.path}:`, error);
+        } catch {
+            // Skip invalid quiz files silently
         }
     }
 

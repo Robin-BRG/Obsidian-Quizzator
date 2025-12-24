@@ -161,20 +161,20 @@ export class QuizModal extends Modal {
                 }
             });
 
-            const label = optionDiv.createEl('label', {
+            const labelEl = optionDiv.createEl('label', {
                 text: option,
                 attr: { for: `opt-${index}` }
             });
 
             const updateAnswer = () => {
                 if (question.multiple) {
-                    const checked = Array.from(options.querySelectorAll('input:checked')) as HTMLInputElement[];
-                    this.currentAnswer = checked.map(cb => cb.value);
+                    const checked = options.querySelectorAll('input:checked');
+                    this.currentAnswer = Array.from(checked).map(cb => (cb as HTMLInputElement).value);
 
                     // Update visual for ALL options based on their checked state
                     options.querySelectorAll('.quizzator-mcq-option').forEach(div => {
-                        const inp = div.querySelector('input') as HTMLInputElement;
-                        if (inp && inp.checked) {
+                        const inp = div.querySelector('input');
+                        if (inp && (inp as HTMLInputElement).checked) {
                             div.addClass('selected');
                         } else {
                             div.removeClass('selected');
@@ -191,7 +191,7 @@ export class QuizModal extends Modal {
 
             input.addEventListener('change', updateAnswer);
             optionDiv.addEventListener('click', (e) => {
-                if (e.target !== input && e.target !== label) {
+                if (e.target !== input && e.target !== labelEl) {
                     input.checked = !input.checked;
                     if (!question.multiple) {
                         options.querySelectorAll('input').forEach(inp => {
@@ -286,7 +286,7 @@ export class QuizModal extends Modal {
             text: this.currentQuestionIndex === this.quiz.questions.length - 1 ? 'Terminer' : 'Suivant'
         });
 
-        nextBtn.addEventListener('click', () => this.handleNext());
+        nextBtn.addEventListener('click', () => { void this.handleNext(); });
     }
 
     private async handleNext() {
@@ -315,7 +315,6 @@ export class QuizModal extends Modal {
             this.showQuestionResult(result);
         } catch (error) {
             new Notice(`Erreur: ${(error as Error).message}`);
-            console.error(error);
             this.isEvaluating = false;
             this.showQuestion();
         }

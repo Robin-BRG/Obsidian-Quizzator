@@ -66,7 +66,7 @@ export class AnthropicProvider implements LLMProvider {
                 expectedAnswer: result.expectedAnswer
             };
         } catch (error) {
-            throw new Error(`Anthropic evaluation failed: ${error.message}`);
+            throw new Error(`Anthropic evaluation failed: ${(error as Error).message}`);
         }
     }
 
@@ -88,8 +88,7 @@ export class AnthropicProvider implements LLMProvider {
             });
 
             return response.status === 200;
-        } catch (error) {
-            console.error('[Quizzator] Anthropic connection test failed:', error);
+        } catch {
             return false;
         }
     }
