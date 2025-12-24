@@ -65,8 +65,8 @@ export async function evaluateAnswer(
         }
 
         default: {
-            const exhaustiveCheck: never = question;
-            throw new Error(`Unknown question type: ${(exhaustiveCheck as Question).type}`);
+            const _exhaustiveCheck: never = question;
+            throw new Error('Unknown question type');
         }
     }
 

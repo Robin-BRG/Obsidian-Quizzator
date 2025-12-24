@@ -2,6 +2,12 @@ import { requestUrl } from 'obsidian';
 import { LLMProvider, LLMEvaluationResult, buildEvaluationPrompt } from './llm-provider';
 import { FreeTextQuestion } from '../models/question';
 
+interface ParsedLLMResponse {
+    score: number;
+    explanation: string;
+    expectedAnswer: string;
+}
+
 export class AnthropicProvider implements LLMProvider {
     private apiKey: string;
     private model: string;
@@ -58,7 +64,7 @@ export class AnthropicProvider implements LLMProvider {
                 jsonText = jsonMatch[1];
             }
 
-            const result = JSON.parse(jsonText);
+            const result = JSON.parse(jsonText) as ParsedLLMResponse;
 
             return {
                 score: Math.max(0, Math.min(100, result.score)),

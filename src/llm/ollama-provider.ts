@@ -2,6 +2,12 @@ import { requestUrl } from 'obsidian';
 import { LLMProvider, LLMEvaluationResult, buildEvaluationPrompt } from './llm-provider';
 import { FreeTextQuestion } from '../models/question';
 
+interface ParsedLLMResponse {
+    score: number;
+    explanation: string;
+    expectedAnswer: string;
+}
+
 export class OllamaProvider implements LLMProvider {
     private baseUrl: string;
     private model: string;
@@ -37,8 +43,8 @@ export class OllamaProvider implements LLMProvider {
                 throw new Error(`Ollama request failed: ${response.status}`);
             }
 
-            const data = response.json;
-            const result = JSON.parse(data.response);
+            const data = response.json as { response: string };
+            const result = JSON.parse(data.response) as ParsedLLMResponse;
 
             return {
                 score: Math.max(0, Math.min(100, result.score)),

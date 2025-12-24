@@ -22,8 +22,8 @@ export default class QuizzatorPlugin extends Plugin {
         );
 
         // Add ribbon icon to open sidebar
-        this.addRibbonIcon('list-checks', 'Open Quizzator', () => {
-            this.activateSidebarView();
+        this.addRibbonIcon('list-checks', 'Open quizzator sidebar', () => {
+            void this.activateSidebarView();
         });
 
         // Add command to launch quiz from current file

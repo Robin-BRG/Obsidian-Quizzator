@@ -2,6 +2,12 @@ import { requestUrl } from 'obsidian';
 import { LLMProvider, LLMEvaluationResult, buildEvaluationPrompt } from './llm-provider';
 import { FreeTextQuestion } from '../models/question';
 
+interface ParsedLLMResponse {
+    score: number;
+    explanation: string;
+    expectedAnswer: string;
+}
+
 export class OpenAIProvider implements LLMProvider {
     private apiKey: string;
     private model: string;
@@ -50,7 +56,7 @@ export class OpenAIProvider implements LLMProvider {
                 throw new Error('Empty response from OpenAI');
             }
 
-            const result = JSON.parse(content);
+            const result = JSON.parse(content) as ParsedLLMResponse;
 
             return {
                 score: Math.max(0, Math.min(100, result.score)),
