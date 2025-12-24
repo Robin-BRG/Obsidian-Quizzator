@@ -50,14 +50,15 @@ export class QuizzatorSettingTab extends PluginSettingTab {
         const { containerEl } = this;
         containerEl.empty();
 
-        containerEl.createEl('h2', { text: 'Quizzator Settings' });
-
         // General Settings
-        containerEl.createEl('h3', { text: 'General' });
+        new Setting(containerEl)
+            .setName('General')
+            .setHeading();
 
-        const quizFolderSetting = new Setting(containerEl)
-            .setName('Quiz Folder')
+        new Setting(containerEl)
+            .setName('Quiz folder')
             .setDesc('Full path to the folder containing your quiz files (e.g., C:\\Users\\...\\Quizzes)')
+            .setClass('quizzator-setting-wide')
             .addText(text => {
                 text.setPlaceholder('C:\\Users\\...\\Quizzes')
                     .setValue(this.plugin.settings.quizFolder)
@@ -65,16 +66,11 @@ export class QuizzatorSettingTab extends PluginSettingTab {
                         this.plugin.settings.quizFolder = value;
                         await this.plugin.saveSettings();
                     });
-                // Make text input wider
-                text.inputEl.style.width = '100%';
-                text.inputEl.style.minWidth = '300px';
+                text.inputEl.addClass('quizzator-input-wide');
             });
-        // Make the setting take full width
-        quizFolderSetting.settingEl.style.flexWrap = 'wrap';
-        quizFolderSetting.controlEl.style.width = '100%';
 
         new Setting(containerEl)
-            .setName('Response Language')
+            .setName('Response language')
             .setDesc('Language for LLM responses and explanations')
             .addDropdown(dropdown => {
                 LANGUAGES.forEach(lang => {
@@ -88,10 +84,12 @@ export class QuizzatorSettingTab extends PluginSettingTab {
             });
 
         // LLM Provider Selection
-        containerEl.createEl('h3', { text: 'LLM Provider' });
+        new Setting(containerEl)
+            .setName('LLM provider')
+            .setHeading();
 
         new Setting(containerEl)
-            .setName('LLM Provider')
+            .setName('Provider')
             .setDesc('Choose which AI provider to use for evaluating quiz answers')
             .addDropdown(dropdown => dropdown
                 .addOption('openai', 'OpenAI (GPT)')
@@ -106,10 +104,12 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         // OpenAI Settings
         if (this.plugin.settings.llmProvider === 'openai') {
-            containerEl.createEl('h3', { text: 'OpenAI Configuration' });
+            new Setting(containerEl)
+                .setName('OpenAI configuration')
+                .setHeading();
 
             new Setting(containerEl)
-                .setName('API Key')
+                .setName('API key')
                 .setDesc('Your OpenAI API key (starts with sk-...)')
                 .addText(text => text
                     .setPlaceholder('sk-...')
@@ -120,7 +120,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
                     }));
 
             new Setting(containerEl)
-                .setName('Model Name')
+                .setName('Model name')
                 .setDesc('Enter the exact model name (e.g., gpt-4o-mini, gpt-4o, gpt-4, gpt-3.5-turbo)')
                 .addText(text => text
                     .setPlaceholder('gpt-4o-mini')
@@ -133,10 +133,12 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         // Anthropic Settings
         if (this.plugin.settings.llmProvider === 'anthropic') {
-            containerEl.createEl('h3', { text: 'Anthropic Configuration' });
+            new Setting(containerEl)
+                .setName('Anthropic configuration')
+                .setHeading();
 
             new Setting(containerEl)
-                .setName('API Key')
+                .setName('API key')
                 .setDesc('Your Anthropic API key (starts with sk-ant-...)')
                 .addText(text => text
                     .setPlaceholder('sk-ant-...')
@@ -147,7 +149,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
                     }));
 
             new Setting(containerEl)
-                .setName('Model Name')
+                .setName('Model name')
                 .setDesc('Enter the exact model name (e.g., claude-3-5-sonnet-20241022, claude-3-opus-20240229, claude-3-haiku-20240307)')
                 .addText(text => text
                     .setPlaceholder('claude-3-5-sonnet-20241022')
@@ -160,7 +162,9 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         // Ollama Settings
         if (this.plugin.settings.llmProvider === 'ollama') {
-            containerEl.createEl('h3', { text: 'Ollama Configuration' });
+            new Setting(containerEl)
+                .setName('Ollama configuration')
+                .setHeading();
 
             new Setting(containerEl)
                 .setName('Ollama URL')

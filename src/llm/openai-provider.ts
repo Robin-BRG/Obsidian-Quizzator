@@ -64,10 +64,6 @@ export class OpenAIProvider implements LLMProvider {
 
     async testConnection(): Promise<boolean> {
         try {
-            console.log('[Quizzator] Testing OpenAI connection...');
-            console.log('[Quizzator] Model:', this.model);
-            console.log('[Quizzator] API Key length:', this.apiKey?.length || 0);
-
             const response = await requestUrl({
                 url: 'https://api.openai.com/v1/chat/completions',
                 method: 'POST',
@@ -81,12 +77,6 @@ export class OpenAIProvider implements LLMProvider {
                     max_tokens: 5
                 })
             });
-
-            console.log('[Quizzator] Response status:', response.status);
-
-            if (response.status !== 200) {
-                console.error('[Quizzator] Error response:', response.text);
-            }
 
             return response.status === 200;
         } catch (error) {

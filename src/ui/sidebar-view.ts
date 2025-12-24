@@ -1,4 +1,4 @@
-import { ItemView, WorkspaceLeaf, TFile } from 'obsidian';
+import { ItemView, WorkspaceLeaf } from 'obsidian';
 import QuizzatorPlugin from '../main';
 import { QuizFileInfo } from '../utils/quiz-finder';
 
@@ -25,27 +25,29 @@ export class QuizzatorSidebarView extends ItemView {
         return 'list-checks';
     }
 
-    async onOpen() {
+    async onOpen(): Promise<void> {
         await this.refresh();
     }
 
-    async onClose() {
+    async onClose(): Promise<void> {
         // Cleanup if needed
     }
 
-    async refresh() {
+    async refresh(): Promise<void> {
         const { contentEl } = this;
         contentEl.empty();
         contentEl.addClass('quizzator-sidebar');
 
         const header = contentEl.createDiv({ cls: 'quizzator-sidebar-header' });
-        header.createDiv({ cls: 'quizzator-sidebar-title', text: 'Available Quizzes' });
+        header.createDiv({ cls: 'quizzator-sidebar-title', text: 'Available quizzes' });
 
         const refreshButton = header.createEl('button', {
             cls: 'quizzator-button quizzator-button-secondary',
             text: '↻'
         });
-        refreshButton.addEventListener('click', () => this.refresh());
+        refreshButton.addEventListener('click', () => {
+            void this.refresh();
+        });
 
         // Load quizzes
         try {
@@ -80,12 +82,12 @@ export class QuizzatorSidebarView extends ItemView {
                 meta.createSpan({ text: `Pass: ${quizInfo.quiz.scoring.min_score_to_pass}%` });
 
                 quizItem.addEventListener('click', () => {
-                    this.plugin.launchQuiz(quizInfo.file);
+                    void this.plugin.launchQuiz(quizInfo.file);
                 });
             });
         } catch (error) {
             contentEl.createDiv({
-                text: `Error loading quizzes: ${error.message}`,
+                text: `Error loading quizzes: ${(error as Error).message}`,
                 cls: 'quizzator-error'
             });
         }

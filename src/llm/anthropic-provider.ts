@@ -72,10 +72,6 @@ export class AnthropicProvider implements LLMProvider {
 
     async testConnection(): Promise<boolean> {
         try {
-            console.log('[Quizzator] Testing Anthropic connection...');
-            console.log('[Quizzator] Model:', this.model);
-            console.log('[Quizzator] API Key length:', this.apiKey?.length || 0);
-
             const response = await requestUrl({
                 url: 'https://api.anthropic.com/v1/messages',
                 method: 'POST',
@@ -90,12 +86,6 @@ export class AnthropicProvider implements LLMProvider {
                     messages: [{ role: 'user', content: 'test' }]
                 })
             });
-
-            console.log('[Quizzator] Response status:', response.status);
-
-            if (response.status !== 200) {
-                console.error('[Quizzator] Error response:', response.text);
-            }
 
             return response.status === 200;
         } catch (error) {

@@ -25,12 +25,12 @@ export async function evaluateAnswer(
     let expectedAnswer: string | undefined;
 
     switch (question.type) {
-        case 'free-text':
+        case 'free-text': {
             if (!llmProvider) {
                 throw new Error('LLM provider required for free-text questions');
             }
             const llmResult = await llmProvider.evaluateAnswer(
-                question as FreeTextQuestion,
+                question,
                 userAnswer as string,
                 language
             );
@@ -38,30 +38,36 @@ export async function evaluateAnswer(
             explanation = llmResult.explanation;
             expectedAnswer = llmResult.expectedAnswer;
             break;
+        }
 
-        case 'mcq':
-            const mcqResult = evaluateMCQ(question as MCQQuestion, userAnswer as string[]);
+        case 'mcq': {
+            const mcqResult = evaluateMCQ(question, userAnswer as string[]);
             score = mcqResult.score;
             explanation = mcqResult.explanation;
             expectedAnswer = mcqResult.expectedAnswer;
             break;
+        }
 
-        case 'slider':
-            const sliderResult = evaluateSlider(question as SliderQuestion, userAnswer as number);
+        case 'slider': {
+            const sliderResult = evaluateSlider(question, userAnswer as number);
             score = sliderResult.score;
             explanation = sliderResult.explanation;
             expectedAnswer = sliderResult.expectedAnswer;
             break;
+        }
 
-        case 'true-false':
-            const tfResult = evaluateTrueFalse(question as TrueFalseQuestion, userAnswer as boolean);
+        case 'true-false': {
+            const tfResult = evaluateTrueFalse(question, userAnswer as boolean);
             score = tfResult.score;
             explanation = tfResult.explanation;
             expectedAnswer = tfResult.expectedAnswer;
             break;
+        }
 
-        default:
-            throw new Error(`Unknown question type: ${(question as any).type}`);
+        default: {
+            const exhaustiveCheck: never = question;
+            throw new Error(`Unknown question type: ${(exhaustiveCheck as Question).type}`);
+        }
     }
 
     const status = getQuestionStatus(score, scoring.min_score_to_pass, scoring.min_score_to_fail);

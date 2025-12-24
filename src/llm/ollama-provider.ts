@@ -52,16 +52,10 @@ export class OllamaProvider implements LLMProvider {
 
     async testConnection(): Promise<boolean> {
         try {
-            console.log('[Quizzator] Testing Ollama connection...');
-            console.log('[Quizzator] URL:', this.baseUrl);
-            console.log('[Quizzator] Model:', this.model);
-
             const response = await requestUrl({
                 url: `${this.baseUrl}/api/tags`,
                 method: 'GET'
             });
-
-            console.log('[Quizzator] Response status:', response.status);
 
             return response.status === 200;
         } catch (error) {

@@ -1,6 +1,6 @@
 import { App, Modal, Notice } from 'obsidian';
-import { Quiz, QuizResult, calculateQuizResult } from '../models/quiz';
-import { Question, QuestionResult } from '../models/question';
+import { Quiz, calculateQuizResult } from '../models/quiz';
+import { Question, QuestionResult, MCQQuestion, SliderQuestion } from '../models/question';
 import { LLMProvider } from '../llm/llm-provider';
 import { evaluateAnswer } from '../utils/scoring';
 
@@ -33,7 +33,7 @@ export class QuizModal extends Modal {
         modalEl.addClass('quizzator-modal');
 
         // Remove default title (we'll use our own header)
-        this.titleEl.style.display = 'none';
+        this.titleEl.addClass('quizzator-hidden');
 
         // Structure: Header | Content | Footer
         this.headerEl = contentEl.createDiv({ cls: 'quizzator-header' });
@@ -99,7 +99,7 @@ export class QuizModal extends Modal {
         const bar = this.headerEl.createDiv({ cls: 'quizzator-progress-bar' });
         const fill = bar.createDiv({ cls: 'quizzator-progress-fill' });
         const progress = ((this.currentQuestionIndex + 1) / this.quiz.questions.length) * 100;
-        fill.style.width = `${progress}%`;
+        fill.setCssProps({ '--progress-width': `${progress}%` });
     }
 
     private renderQuestion(question: Question) {
@@ -145,7 +145,7 @@ export class QuizModal extends Modal {
         setTimeout(() => textarea.focus(), 100);
     }
 
-    private renderMCQ(container: HTMLElement, question: any) {
+    private renderMCQ(container: HTMLElement, question: MCQQuestion) {
         const options = container.createDiv({ cls: 'quizzator-mcq-options' });
         this.currentAnswer = [];
 
@@ -204,7 +204,7 @@ export class QuizModal extends Modal {
         });
     }
 
-    private renderSlider(container: HTMLElement, question: any) {
+    private renderSlider(container: HTMLElement, question: SliderQuestion) {
         const sliderDiv = container.createDiv({ cls: 'quizzator-slider-container' });
 
         const initialValue = Math.floor((question.min + question.max) / 2);
@@ -314,7 +314,7 @@ export class QuizModal extends Modal {
             this.questionResults[this.currentQuestionIndex] = result;
             this.showQuestionResult(result);
         } catch (error) {
-            new Notice(`Erreur: ${error.message}`);
+            new Notice(`Erreur: ${(error as Error).message}`);
             console.error(error);
             this.isEvaluating = false;
             this.showQuestion();
@@ -367,12 +367,11 @@ export class QuizModal extends Modal {
             text: 'Voir les détails'
         });
 
-        const detailsDiv = resultDiv.createDiv({ cls: 'quizzator-result-details' });
-        detailsDiv.style.display = 'none';
+        const detailsDiv = resultDiv.createDiv({ cls: 'quizzator-result-details quizzator-hidden' });
 
         toggleBtn.addEventListener('click', () => {
             this.showDetails = !this.showDetails;
-            detailsDiv.style.display = this.showDetails ? 'block' : 'none';
+            detailsDiv.toggleClass('quizzator-hidden', !this.showDetails);
             toggleBtn.setText(this.showDetails ? 'Masquer les détails' : 'Voir les détails');
         });
 
@@ -433,7 +432,7 @@ export class QuizModal extends Modal {
             text: statusText
         });
 
-        results.createEl('h3', { text: 'Détails par question' });
+        results.createDiv({ cls: 'quizzator-details-heading', text: 'Détails par question' });
 
         this.questionResults.forEach((r, i) => {
             const questionContainer = results.createDiv({ cls: 'quizzator-question-detail-container' });
@@ -452,8 +451,7 @@ export class QuizModal extends Modal {
             });
 
             // Expandable details
-            const details = questionContainer.createDiv({ cls: 'quizzator-question-detail-panel' });
-            details.style.display = 'none';
+            const details = questionContainer.createDiv({ cls: 'quizzator-question-detail-panel quizzator-hidden' });
 
             // Question text
             details.createEl('p', {
@@ -486,9 +484,9 @@ export class QuizModal extends Modal {
 
             // Toggle on click
             summary.addEventListener('click', () => {
-                const isVisible = details.style.display !== 'none';
-                details.style.display = isVisible ? 'none' : 'block';
-                summary.toggleClass('expanded', !isVisible);
+                const isExpanded = !details.hasClass('quizzator-hidden');
+                details.toggleClass('quizzator-hidden', isExpanded);
+                summary.toggleClass('expanded', !isExpanded);
             });
         });
 

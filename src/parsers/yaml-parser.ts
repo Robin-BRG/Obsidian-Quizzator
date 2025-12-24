@@ -2,15 +2,40 @@ import * as yaml from 'js-yaml';
 import { Quiz, QuizScoring } from '../models/quiz';
 import { Question, QuestionType } from '../models/question';
 
+interface ParsedQuizData {
+    quiz?: ParsedQuizData;
+    title?: string;
+    description?: string;
+    scoring?: {
+        min_score_to_pass?: number;
+        min_score_to_fail?: number;
+    };
+    questions?: ParsedQuestionData[];
+}
+
+interface ParsedQuestionData {
+    type?: string;
+    q?: string;
+    answer?: string | number | boolean | string[];
+    context?: string;
+    options?: string[];
+    multiple?: boolean;
+    min?: number;
+    max?: number;
+    step?: number;
+    tolerance?: number;
+    weight?: number;
+}
+
 /**
  * Parses a YAML string into a Quiz object
  */
 export function parseQuizYAML(yamlContent: string): Quiz {
     try {
-        const parsed = yaml.load(yamlContent) as any;
+        const parsed = yaml.load(yamlContent) as ParsedQuizData;
 
         // Support both formats: with "quiz:" root or direct properties
-        const quizData = parsed.quiz || parsed;
+        const quizData = parsed.quiz ?? parsed;
 
         // Validate required fields
         if (!quizData.title) {
@@ -37,7 +62,7 @@ export function parseQuizYAML(yamlContent: string): Quiz {
         }
 
         // Parse questions
-        const questions: Question[] = quizData.questions.map((q: any, index: number) => {
+        const questions: Question[] = quizData.questions.map((q: ParsedQuestionData, index: number) => {
             return parseQuestion(q, index);
         });
 
@@ -48,15 +73,15 @@ export function parseQuizYAML(yamlContent: string): Quiz {
             questions
         };
     } catch (error) {
-        throw new Error(`Failed to parse quiz YAML: ${error.message}`);
+        throw new Error(`Failed to parse quiz YAML: ${(error as Error).message}`);
     }
 }
 
 /**
  * Parses a single question from YAML
  */
-function parseQuestion(questionData: any, index: number): Question {
-    const type: QuestionType = questionData.type;
+function parseQuestion(questionData: ParsedQuestionData, index: number): Question {
+    const type = questionData.type as QuestionType;
     const weight = questionData.weight ?? 1;
 
     if (!questionData.q) {
@@ -72,7 +97,7 @@ function parseQuestion(questionData: any, index: number): Question {
             return {
                 type: 'free-text',
                 q: questionData.q,
-                answer: questionData.answer,
+                answer: questionData.answer as string,
                 context: questionData.context,
                 weight
             };

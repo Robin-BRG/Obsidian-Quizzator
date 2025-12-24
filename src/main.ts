@@ -1,4 +1,4 @@
-import { Plugin, TFile, Notice, MarkdownView } from 'obsidian';
+import { Plugin, TFile, Notice } from 'obsidian';
 import { QuizzatorSettings, DEFAULT_SETTINGS, QuizzatorSettingTab } from './settings';
 import { QuizzatorSidebarView, QUIZZATOR_VIEW_TYPE } from './ui/sidebar-view';
 import { QuizModal } from './ui/quiz-modal';
@@ -7,7 +7,6 @@ import { OpenAIProvider } from './llm/openai-provider';
 import { AnthropicProvider } from './llm/anthropic-provider';
 import { OllamaProvider } from './llm/ollama-provider';
 import { findAllQuizzes, loadQuizFromFile, QuizFileInfo } from './utils/quiz-finder';
-import { Quiz } from './models/quiz';
 import { isAbsolutePath, resolveToVaultRelative } from './utils/path-utils';
 
 export default class QuizzatorPlugin extends Plugin {
@@ -35,7 +34,7 @@ export default class QuizzatorPlugin extends Plugin {
                 const activeFile = this.app.workspace.getActiveFile();
                 if (activeFile) {
                     if (!checking) {
-                        this.launchQuiz(activeFile);
+                        void this.launchQuiz(activeFile);
                     }
                     return true;
                 }
@@ -45,8 +44,8 @@ export default class QuizzatorPlugin extends Plugin {
 
         // Add command to open sidebar
         this.addCommand({
-            id: 'open-quizzator-sidebar',
-            name: 'Open Quizzator sidebar',
+            id: 'open-sidebar',
+            name: 'Open sidebar',
             callback: () => {
                 this.activateSidebarView();
             }
@@ -103,11 +102,9 @@ export default class QuizzatorPlugin extends Plugin {
             });
         });
 
-        console.log('Quizzator plugin loaded');
     }
 
     onunload() {
-        console.log('Quizzator plugin unloaded');
     }
 
     async loadSettings() {
@@ -167,7 +164,7 @@ export default class QuizzatorPlugin extends Plugin {
             const modal = new QuizModal(this.app, quiz, llmProvider, this.settings.responseLanguage);
             modal.open();
         } catch (error) {
-            new Notice(`Failed to launch quiz: ${error.message}`);
+            new Notice(`Failed to launch quiz: ${(error as Error).message}`);
             console.error('Quiz launch error:', error);
         }
     }
@@ -204,7 +201,7 @@ export default class QuizzatorPlugin extends Plugin {
             }
         } catch (error) {
             console.error('Error creating LLM provider:', error);
-            new Notice(`Failed to initialize LLM provider: ${error.message}`);
+            new Notice(`Failed to initialize LLM provider: ${(error as Error).message}`);
             return null;
         }
     }
