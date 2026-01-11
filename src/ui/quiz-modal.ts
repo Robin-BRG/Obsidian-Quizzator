@@ -168,13 +168,13 @@ export class QuizModal extends Modal {
 
             const updateAnswer = () => {
                 if (question.multiple) {
-                    const checked = options.querySelectorAll('input:checked');
-                    this.currentAnswer = Array.from(checked).map(cb => (cb as HTMLInputElement).value);
+                    const checked = options.querySelectorAll<HTMLInputElement>('input:checked');
+                    this.currentAnswer = Array.from(checked).map(cb => cb.value);
 
                     // Update visual for ALL options based on their checked state
                     options.querySelectorAll('.quizzator-mcq-option').forEach(div => {
-                        const inp = div.querySelector('input');
-                        if (inp && (inp as HTMLInputElement).checked) {
+                        const inp = div.querySelector<HTMLInputElement>('input');
+                        if (inp?.checked) {
                             div.addClass('selected');
                         } else {
                             div.removeClass('selected');
@@ -194,8 +194,8 @@ export class QuizModal extends Modal {
                 if (e.target !== input && e.target !== labelEl) {
                     input.checked = !input.checked;
                     if (!question.multiple) {
-                        options.querySelectorAll('input').forEach(inp => {
-                            if (inp !== input) (inp as HTMLInputElement).checked = false;
+                        options.querySelectorAll<HTMLInputElement>('input').forEach(inp => {
+                            if (inp !== input) inp.checked = false;
                         });
                     }
                     updateAnswer();

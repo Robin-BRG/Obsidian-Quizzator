@@ -4,7 +4,6 @@ import {
     MCQQuestion,
     SliderQuestion,
     TrueFalseQuestion,
-    FreeTextQuestion,
     getQuestionStatus
 } from '../models/question';
 import { QuizScoring } from '../models/quiz';
@@ -65,8 +64,9 @@ export async function evaluateAnswer(
         }
 
         default: {
-            const _exhaustiveCheck: never = question;
-            throw new Error('Unknown question type');
+            // Exhaustive check - TypeScript will error if a case is missing
+            const unknownQuestion: never = question;
+            throw new Error(`Unknown question type: ${(unknownQuestion as Question).type}`);
         }
     }
 

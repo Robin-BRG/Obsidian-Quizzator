@@ -151,7 +151,7 @@ function parseQuestion(questionData: ParsedQuestionData, index: number): Questio
             };
 
         default:
-            throw new Error(`Question ${index + 1} has invalid type: ${type}`);
+            throw new Error(`Question ${index + 1} has invalid type: ${String(questionData.type)}`);
     }
 }
 

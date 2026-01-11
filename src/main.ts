@@ -47,7 +47,7 @@ export default class QuizzatorPlugin extends Plugin {
             id: 'open-sidebar',
             name: 'Open sidebar',
             callback: () => {
-                this.activateSidebarView();
+                void this.activateSidebarView();
             }
         });
 
@@ -55,7 +55,7 @@ export default class QuizzatorPlugin extends Plugin {
         this.addSettingTab(new QuizzatorSettingTab(this.app, this));
 
         // Register markdown post processor for inline quiz buttons
-        this.registerMarkdownCodeBlockProcessor('quiz-button', (source, el, ctx) => {
+        this.registerMarkdownCodeBlockProcessor('quiz-button', (source, el, _ctx) => {
             const lines = source.split('\n');
             let quizPath = '';
 
