@@ -94,7 +94,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
             .addDropdown(dropdown => dropdown
                 .addOption('openai', 'OpenAI (GPT)')
                 .addOption('anthropic', 'Anthropic (Claude)')
-                .addOption('ollama', 'Ollama (Local)')
+                .addOption('ollama', 'Ollama (local)')
                 .setValue(this.plugin.settings.llmProvider)
                 .onChange(async (value) => {
                     this.plugin.settings.llmProvider = value as LLMProvider;

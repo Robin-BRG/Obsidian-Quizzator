@@ -80,7 +80,7 @@ export class QuizModal extends Modal {
             'free-text': 'Réponse libre',
             'mcq': 'QCM',
             'slider': 'Curseur',
-            'true-false': 'Vrai / Faux'
+            'true-false': 'Vrai / faux'
         };
         topRow.createSpan({
             cls: 'quizzator-question-type-badge',
@@ -245,12 +245,12 @@ export class QuizModal extends Modal {
 
         const trueBtn = tfDiv.createDiv({
             cls: 'quizzator-tf-button true',
-            text: 'VRAI'
+            text: 'Vrai'
         });
 
         const falseBtn = tfDiv.createDiv({
             cls: 'quizzator-tf-button false',
-            text: 'FAUX'
+            text: 'Faux'
         });
 
         trueBtn.addEventListener('click', () => {
