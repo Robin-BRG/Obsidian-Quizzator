@@ -76,7 +76,7 @@ export default class QuizzatorPlugin extends Plugin {
             }
 
             const button = el.createEl('button', {
-                text: '▶ Launch quiz',
+                text: '▶ launch quiz',
                 cls: 'quizzator-button quizzator-button-primary'
             });
 
@@ -146,17 +146,17 @@ export default class QuizzatorPlugin extends Plugin {
             const llmProvider = this.getLLMProvider();
 
             if (!llmProvider) {
-                new Notice('Please configure an llm provider in settings');
+                new Notice('please configure an llm provider in settings');
                 return;
             }
 
             // Test LLM connection for free-text questions
             const hasFreeText = quiz.questions.some(q => q.type === 'free-text');
             if (hasFreeText) {
-                new Notice('Testing llm connection...');
+                new Notice('testing llm connection...');
                 const connected = await llmProvider.testConnection();
                 if (!connected) {
-                    new Notice('Failed to connect to llm provider. Check your settings.');
+                    new Notice('failed to connect to llm provider, check your settings');
                     return;
                 }
             }
@@ -175,31 +175,31 @@ export default class QuizzatorPlugin extends Plugin {
             switch (settings.llmProvider) {
                 case 'openai':
                     if (!settings.openaiApiKey) {
-                        new Notice('OpenAI API key not configured');
+                        new Notice('openai api key not configured');
                         return null;
                     }
                     return new OpenAIProvider(settings.openaiApiKey, settings.openaiModel);
 
                 case 'anthropic':
                     if (!settings.anthropicApiKey) {
-                        new Notice('Anthropic API key not configured');
+                        new Notice('anthropic api key not configured');
                         return null;
                     }
                     return new AnthropicProvider(settings.anthropicApiKey, settings.anthropicModel);
 
                 case 'ollama':
                     if (!settings.ollamaUrl || !settings.ollamaModel) {
-                        new Notice('Ollama configuration incomplete');
+                        new Notice('ollama configuration incomplete');
                         return null;
                     }
                     return new OllamaProvider(settings.ollamaUrl, settings.ollamaModel);
 
                 default:
-                    new Notice('Invalid llm provider selected');
+                    new Notice('invalid llm provider selected');
                     return null;
             }
         } catch (error) {
-            new Notice(`Failed to initialize llm provider: ${(error as Error).message}`);
+            new Notice(`failed to initialize llm provider: ${(error as Error).message}`);
             return null;
         }
     }
