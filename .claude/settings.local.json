@@ -4,7 +4,16 @@
       "Bash(ls:*)",
       "Bash(npm run build:*)",
       "Bash(dir:*)",
-      "Bash(cat:*)"
+      "Bash(cat:*)",
+      "Bash(npx tsc:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nFix PR review issues for Obsidian community plugin validation\n\n- Fix unhandled promise in main.ts \\(add void operator\\)\n- Replace any types with unknown in types.d.ts\n- Fix template literal type error in yaml-parser.ts\n- Simplify settings heading terminology\n- Remove unused FreeTextQuestion import in scoring.ts\n- Fix unused variable warning with exhaustive check pattern\n- Remove unnecessary type assertions in quiz-modal.ts\n- Prefix unused ctx parameter with underscore\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nFix sentence case for UI text\n\n- Change ''VRAI''/''FAUX'' to ''Vrai''/''Faux'' in true/false buttons\n- Change ''Vrai / Faux'' to ''Vrai / faux'' in type badge\n- Change ''Ollama \\(Local\\)'' to ''Ollama \\(local\\)'' in provider dropdown\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(npm install:*)",
+      "Bash(npx eslint:*)",
+      "Bash(npm uninstall:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)"
     ]
   }
 }

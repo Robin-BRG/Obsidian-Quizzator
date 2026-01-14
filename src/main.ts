@@ -69,7 +69,7 @@ export default class QuizzatorPlugin extends Plugin {
 
             if (!quizPath) {
                 el.createEl('p', {
-                    text: 'Error: No quiz path specified',
+                    text: 'Error: no quiz path specified',
                     cls: 'quizzator-error'
                 });
                 return;
@@ -132,7 +132,7 @@ export default class QuizzatorPlugin extends Plugin {
         }
 
         if (leaf) {
-            workspace.revealLeaf(leaf);
+            void workspace.revealLeaf(leaf);
         }
     }
 

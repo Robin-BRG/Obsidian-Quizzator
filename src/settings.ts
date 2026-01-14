@@ -57,7 +57,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Quiz folder')
-            .setDesc('Full path to the folder containing your quiz files (e.g., C:\\Users\\...\\Quizzes)')
+            .setDesc('Full path to the folder containing your quiz files (for example, C:\\Users\\...\\Quizzes)')
             .setClass('quizzator-setting-wide')
             .addText(text => {
                 text.setPlaceholder('C:\\Users\\...\\Quizzes')
@@ -121,7 +121,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
             new Setting(containerEl)
                 .setName('Model name')
-                .setDesc('Enter the exact model name (e.g., gpt-4o-mini, gpt-4o, gpt-4, gpt-3.5-turbo)')
+                .setDesc('Enter the exact model name (for example, gpt-4o-mini, gpt-4o, gpt-4, gpt-3.5-turbo)')
                 .addText(text => text
                     .setPlaceholder('gpt-4o-mini')
                     .setValue(this.plugin.settings.openaiModel)
@@ -150,7 +150,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
             new Setting(containerEl)
                 .setName('Model name')
-                .setDesc('Enter the exact model name (e.g., claude-3-5-sonnet-20241022, claude-3-opus-20240229, claude-3-haiku-20240307)')
+                .setDesc('Enter the exact model name (for example, claude-3-5-sonnet-20241022, claude-3-opus-20240229, claude-3-haiku-20240307)')
                 .addText(text => text
                     .setPlaceholder('claude-3-5-sonnet-20241022')
                     .setValue(this.plugin.settings.anthropicModel)
@@ -179,7 +179,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
             new Setting(containerEl)
                 .setName('Model')
-                .setDesc('Ollama model name (e.g., llama2, mistral)')
+                .setDesc('Ollama model name (for example, llama2, mistral)')
                 .addText(text => text
                     .setPlaceholder('llama2')
                     .setValue(this.plugin.settings.ollamaModel)
