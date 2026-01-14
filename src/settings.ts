@@ -71,7 +71,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Response language')
-            .setDesc('Language for LLM responses and explanations')
+            .setDesc('Language for llm responses and explanations')
             .addDropdown(dropdown => {
                 LANGUAGES.forEach(lang => {
                     dropdown.addOption(lang.value, lang.label);
@@ -85,7 +85,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         // LLM Provider Selection
         new Setting(containerEl)
-            .setName('LLM provider')
+            .setName('Llm provider')
             .setHeading();
 
         new Setting(containerEl)

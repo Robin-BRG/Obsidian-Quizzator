@@ -146,17 +146,17 @@ export default class QuizzatorPlugin extends Plugin {
             const llmProvider = this.getLLMProvider();
 
             if (!llmProvider) {
-                new Notice('Please configure an LLM provider in settings');
+                new Notice('Please configure an llm provider in settings');
                 return;
             }
 
             // Test LLM connection for free-text questions
             const hasFreeText = quiz.questions.some(q => q.type === 'free-text');
             if (hasFreeText) {
-                new Notice('Testing LLM connection...');
+                new Notice('Testing llm connection...');
                 const connected = await llmProvider.testConnection();
                 if (!connected) {
-                    new Notice('Failed to connect to LLM provider. Check your settings.');
+                    new Notice('Failed to connect to llm provider. Check your settings.');
                     return;
                 }
             }
@@ -195,11 +195,11 @@ export default class QuizzatorPlugin extends Plugin {
                     return new OllamaProvider(settings.ollamaUrl, settings.ollamaModel);
 
                 default:
-                    new Notice('Invalid LLM provider selected');
+                    new Notice('Invalid llm provider selected');
                     return null;
             }
         } catch (error) {
-            new Notice(`Failed to initialize LLM provider: ${(error as Error).message}`);
+            new Notice(`Failed to initialize llm provider: ${(error as Error).message}`);
             return null;
         }
     }
