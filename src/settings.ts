@@ -57,10 +57,10 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Quiz folder')
-            .setDesc('full path to the folder containing your quiz files (for example, c:\\users\\...\\quizzes)')
+            .setDesc('Full path to the folder containing your quiz files (for example, C:\\Users\\...\\Quizzes)')
             .setClass('quizzator-setting-wide')
             .addText(text => {
-                text.setPlaceholder('c:\\users\\...\\quizzes')
+                text.setPlaceholder('C:\\Users\\...\\Quizzes')
                     .setValue(this.plugin.settings.quizFolder)
                     .onChange(async (value) => {
                         this.plugin.settings.quizFolder = value;
@@ -71,7 +71,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Response language')
-            .setDesc('language for llm responses and explanations')
+            .setDesc('Language for LLM responses and explanations')
             .addDropdown(dropdown => {
                 LANGUAGES.forEach(lang => {
                     dropdown.addOption(lang.value, lang.label);
@@ -90,11 +90,11 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
         new Setting(containerEl)
             .setName('Provider')
-            .setDesc('choose which ai provider to use for evaluating quiz answers')
+            .setDesc('Choose which AI provider to use for evaluating quiz answers')
             .addDropdown(dropdown => dropdown
-                .addOption('openai', 'openai (gpt)')
-                .addOption('anthropic', 'anthropic (claude)')
-                .addOption('ollama', 'ollama (local)')
+                .addOption('openai', 'OpenAI (GPT)')
+                .addOption('anthropic', 'Anthropic (Claude)')
+                .addOption('ollama', 'Ollama (local)')
                 .setValue(this.plugin.settings.llmProvider)
                 .onChange(async (value) => {
                     this.plugin.settings.llmProvider = value as LLMProvider;
@@ -105,12 +105,12 @@ export class QuizzatorSettingTab extends PluginSettingTab {
         // OpenAI Settings
         if (this.plugin.settings.llmProvider === 'openai') {
             new Setting(containerEl)
-                .setName('Openai configuration')
+                .setName('OpenAI configuration')
                 .setHeading();
 
             new Setting(containerEl)
-                .setName('Api key')
-                .setDesc('your openai api key (starts with sk-...)')
+                .setName('API key')
+                .setDesc('Your OpenAI API key (starts with sk-...)')
                 .addText(text => text
                     .setPlaceholder('sk-...')
                     .setValue(this.plugin.settings.openaiApiKey)
@@ -121,7 +121,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
             new Setting(containerEl)
                 .setName('Model name')
-                .setDesc('enter the exact model name (for example, gpt-4o-mini, gpt-4o, gpt-4, gpt-3.5-turbo)')
+                .setDesc('Enter the exact model name (for example, gpt-4o-mini, gpt-4o, gpt-4, gpt-3.5-turbo)')
                 .addText(text => text
                     .setPlaceholder('gpt-4o-mini')
                     .setValue(this.plugin.settings.openaiModel)
@@ -138,8 +138,8 @@ export class QuizzatorSettingTab extends PluginSettingTab {
                 .setHeading();
 
             new Setting(containerEl)
-                .setName('Api key')
-                .setDesc('your anthropic api key (starts with sk-ant-...)')
+                .setName('API key')
+                .setDesc('Your Anthropic API key (starts with sk-ant-...)')
                 .addText(text => text
                     .setPlaceholder('sk-ant-...')
                     .setValue(this.plugin.settings.anthropicApiKey)
@@ -150,7 +150,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
             new Setting(containerEl)
                 .setName('Model name')
-                .setDesc('enter the exact model name (for example, claude-3-5-sonnet-20241022, claude-3-opus-20240229, claude-3-haiku-20240307)')
+                .setDesc('Enter the exact model name (for example, claude-3-5-sonnet-20241022, claude-3-opus-20240229, claude-3-haiku-20240307)')
                 .addText(text => text
                     .setPlaceholder('claude-3-5-sonnet-20241022')
                     .setValue(this.plugin.settings.anthropicModel)
@@ -167,8 +167,8 @@ export class QuizzatorSettingTab extends PluginSettingTab {
                 .setHeading();
 
             new Setting(containerEl)
-                .setName('Ollama url')
-                .setDesc('url of your ollama instance')
+                .setName('Ollama URL')
+                .setDesc('URL of your Ollama instance')
                 .addText(text => text
                     .setPlaceholder('http://localhost:11434')
                     .setValue(this.plugin.settings.ollamaUrl)
@@ -179,7 +179,7 @@ export class QuizzatorSettingTab extends PluginSettingTab {
 
             new Setting(containerEl)
                 .setName('Model')
-                .setDesc('ollama model name (for example, llama2, mistral)')
+                .setDesc('Ollama model name (for example, llama2, mistral)')
                 .addText(text => text
                     .setPlaceholder('llama2')
                     .setValue(this.plugin.settings.ollamaModel)
